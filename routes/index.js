@@ -4,6 +4,7 @@ const postRoutes = require("./posts");
 
 const router = express.Router();
 
+// Mount the routes
 router.use("/", authRoutes);
 router.use("/posts", postRoutes);
 

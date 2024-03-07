@@ -14,9 +14,11 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+// endpoint for user registration
 router.post("/signup", async (req, res) => {
   const { username, email, password, name, profile_picture } = req.body;
 
+  // check if username or email already exists
   const userExists = await pool.query(
     "SELECT * FROM users WHERE username = $1 OR email = $2",
     [username, email]
@@ -25,13 +27,16 @@ router.post("/signup", async (req, res) => {
     return res.status(400).json({ error: "Username or email already exists" });
   }
 
+  // hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  // insert the new user into the database
   const newUser = await pool.query(
     "INSERT INTO users (username, email, password_hash, name, profile_picture) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [username, email, hashedPassword, name, profile_picture]
   );
 
+  // create a JWT token
   const token = jwt.sign({ user_id: newUser.rows[0].id }, jwtSecret, {
     expiresIn: "1h",
   });
@@ -39,9 +44,11 @@ router.post("/signup", async (req, res) => {
   res.status(200).json({ message: "User registered successfully", token });
 });
 
+// endpoint for user login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
+  // check if user exists
   const user = await pool.query(
     "SELECT * FROM users WHERE email = $1",
     [email]

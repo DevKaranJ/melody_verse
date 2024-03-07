@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
 
+// Create a schema for the form
 const schema = yup.object().shape({
   username: yup.string().required(),
   email: yup.string().email().required(),
@@ -11,6 +12,7 @@ const schema = yup.object().shape({
   profile_picture: yup.string().url(),
 });
 
+// Create a Signup component
 function Signup() {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
@@ -20,6 +22,7 @@ function Signup() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

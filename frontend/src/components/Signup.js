@@ -1,4 +1,3 @@
-// Signup.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
@@ -42,6 +41,7 @@ function Signup() {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit}>
       <input name="username" placeholder="Username" onChange={handleChange} />
       {errors.username && <p>{errors.username}</p>}
@@ -58,6 +58,7 @@ function Signup() {
       <button type="submit">Sign Up</button>
       {message && <p>{message}</p>}
     </form>
+    </div>
   );
 }
 

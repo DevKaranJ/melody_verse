@@ -60,6 +60,33 @@ app.get("/posts", async (req, res) => {
   res.status(200).json(posts.rows);
 });
 
+// Login endpoint
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  // Check if user exists
+  const user = await pool.query(
+    "SELECT * FROM users WHERE email = $1",
+    [email]
+  );
+  if (user.rows.length === 0) {
+    return res.status(400).json({ error: "Invalid email or password" });
+  }
+
+  // Compare passwords
+  const validPassword = await bcrypt.compare(password, user.rows[0].password_hash);
+  if (!validPassword) {
+    return res.status(400).json({ error: "Invalid email or password" });
+  }
+
+  // Generate JWT token
+  const token = jwt.sign({ user_id: user.rows[0].id }, jwtSecret, {
+    expiresIn: "1h",
+  });
+
+  res.status(200).json({ message: "Logged in successfully", token });
+});
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });

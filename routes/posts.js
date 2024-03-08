@@ -12,19 +12,22 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
-// Middleware for checking authentication
 router.use((req, res, next) => {
-  const token = req.headers['authorization'];
+  const authHeader = req.headers['authorization'];
 
-  if (!token) {
+  if (!authHeader) {
     return res.status(403).json({ error: 'No token provided.' });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  const token = authHeader.split(' ')[1];
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
+      console.error('Failed to verify token: ', err);
       return res.status(403).json({ error: 'Failed to authenticate token.' });
     }
 
+    req.userId = decoded.user_id; // store the user id from the token in the request object
     next();
   });
 });

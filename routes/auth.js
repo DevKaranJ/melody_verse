@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
     expiresIn: "1h",
   });
 
-  res.status(200).json({ message: "User registered successfully", token });
+  res.status(200).json({ message: "User registered successfully", token, user: { email: email } });
 });
 
 // endpoint for user login

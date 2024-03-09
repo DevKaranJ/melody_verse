@@ -26,14 +26,16 @@ function PostList() {
   }
 
   return (
-    <div>
+    <div className="flex flex-col h-screen bg-gray-200">
       <Navbar onLogout={handleLogout} />
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-        </div>
-      ))}
+      <div className="flex flex-col items-center justify-center">
+        {posts.map((post) => (
+          <div key={post.id} className="p-4 bg-white rounded shadow-lg w-1/2">
+            <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
+            <p className="text-gray-700">{post.content}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

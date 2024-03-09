@@ -28,13 +28,14 @@ function PostList() {
   return (
     <div className="flex flex-col h-screen bg-gray-200">
       <Navbar onLogout={handleLogout} />
-      <div className="flex flex-col items-center justify-center">
-        {posts.map((post) => (
-          <div key={post.id} className="p-4 bg-white rounded shadow-lg w-1/2">
-            <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
-            <p className="text-gray-700">{post.content}</p>
-          </div>
-        ))}
+      <div className="flex flex-col items-center justify-center p-5">
+      {posts.map((post) => (
+  <div key={post.id} className="p-4 bg-white rounded-3xl shadow-lg w-full lg:w-1/2 mb-5 border-2 border-gray-100">
+    <h2 className="text-2xl font-bold mb-2 text-violet-500">{post.title}</h2>
+    <p className="text-gray-700">{post.content}</p>
+    <p className="mt-2 text-sm text-gray-500">Posted by {post.username} on {new Date(post.created_at).toLocaleDateString()}</p>
+  </div>
+))}
       </div>
     </div>
   );

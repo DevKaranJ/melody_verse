@@ -38,8 +38,14 @@ router.get("/", async (req, res) => {
   const size = req.query.size || 10; // extract the size query parameter
   const offset = (page - 1) * size; // calculate the offset based on the page and size
 
-  const posts = await pool.query("SELECT * FROM posts ORDER BY id LIMIT $1 OFFSET $2", [size, offset]);
-  res.status(200).json(posts.rows);
+  const posts = await pool.query(`
+  SELECT posts.*, users.username 
+  FROM posts 
+  INNER JOIN users ON posts.user_id = users.id 
+  ORDER BY posts.id 
+  LIMIT $1 OFFSET $2
+`, [size, offset]);
+res.status(200).json(posts.rows);
 });
 
 module.exports = router;

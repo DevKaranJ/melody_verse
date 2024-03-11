@@ -41,7 +41,7 @@ function Login() {
 
   // Handle demo user login
   const handleDemoLogin = async () => {
-    setForm({ email: 'demo@user.com', password: 'Demo@123' });
+    setForm({ email: 'testUser@example.com', password: 'testPassword' });
     handleSubmit({ preventDefault: () => {} });
   };
 

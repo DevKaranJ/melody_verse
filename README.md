@@ -170,6 +170,15 @@ Start the server:
   cd frontend
   npm start
 ```
+
+Create a dummy User run:
+
+```sh
+  node setup.js
+```
+
+- It will create a dummy user with some random posts just go to login and click on demo 
+
 ### Usage
 
 Access the application at http://localhost:3001 in your web browser.
